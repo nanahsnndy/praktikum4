@@ -8,14 +8,11 @@
     <h1>Tambah Project</h1>
 
     @if ($errors->any())
-        <div>
-            <h3>Terjadi Error:</h3>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
+    <ul>
+        @foreach ($errors->all() as $error)
+            <li>{{ $error }}</li>
+        @endforeach
+    </ul>
     @endif
 
     <form action="{{ route('projects.store') }}" method="POST">

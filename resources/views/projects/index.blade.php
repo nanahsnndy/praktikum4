@@ -2,65 +2,49 @@
 <html>
 <head>
     <title>Daftar Project</title>
-
-    <style>
-        table {
-            width: 80%;
-            border-collapse: collapse;
-        }
-
-        th {
-            background-color: #3498db;
-            color: white;
-            padding: 10px;
-            text-align: left;
-        }
-
-        td {
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        a {
-            color: #3498db;
-        }
-    </style>
 </head>
 
 <body>
 
     <h1>Daftar Project</h1>
 
-    <table>
-        <tr>
-            <th>No</th>
-            <th>Judul Project</th>
-            <th>Deskripsi</th>
-            <th>Aksi</th>
-        </tr>
+    @if (session('success'))
+        <p>{{ session('success') }}</p>
+    @endif
 
-        @forelse ($projects as $project)
-            <tr>
-                <td>{{ $project->id }}</td>
-                <td>{{ $project->title }}</td>
-                <td>{{ $project->description }}</td>
-                <td>
-                    <a href="{{ route('projects.show', $project->id) }}">
-                        Lihat Detail
-                    </a>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="4">Belum ada project.</td>
-            </tr>
-        @endforelse
+    @forelse ($projects as $project)
 
-    </table>
+        <h2>{{ $project->title }}</h2>
+
+        <p>{{ $project->description }}</p>
+
+        <a href="{{ route('projects.show', $project->id) }}">
+            Lihat Detail
+        </a>
+
+        <br>
+
+        <a href="{{ route('projects.edit', $project->id) }}">
+            Edit
+        </a>
+        
+        <br>
+
+        <form action="{{ route('projects.destroy', $project->id) }}" method="POST"
+            onsubmit="return confirm('Apakah kamu yakin ingin menghapus project ini?');">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit">Delete</button>
+        </form>
+
+        <hr>
+
+    @empty
+
+        <p>Belum ada project.</p>
+
+    @endforelse
 
     <br>
 
